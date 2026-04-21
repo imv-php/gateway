@@ -4,12 +4,19 @@ namespace Imv\Gateway;
 
 use Imv\Gateway\Auth\GatewayAuthenticator;
 use Imv\Gateway\Connectors\GatewayConnector;
+use Imv\Gateway\Data\EImzo\EImzoTimestamp;
+use Imv\Gateway\Data\EImzo\VerifyAttached;
 use Imv\Gateway\Data\OrganInfo;
 use Imv\Gateway\Data\Passport\PassportInfo;
+use Imv\Gateway\Data\Tax\TaxOrganInfo;
 use Imv\Gateway\Exceptions\GatewayException;
+use Imv\Gateway\Requests\EImzo\MakeAttachedRequest;
+use Imv\Gateway\Requests\EImzo\TimestampRequest;
+use Imv\Gateway\Requests\EImzo\VerifyAttachedRequest;
 use Imv\Gateway\Requests\OrganDataByTinRequest;
 use Imv\Gateway\Requests\OrganInfoRequest;
 use Imv\Gateway\Requests\Passport\PassportInfoV1;
+use Imv\Gateway\Requests\Tax\TaxOrganInfoRequest;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Request;
@@ -52,12 +59,40 @@ class Gateway
     public function getOrganDataByTin(string $tin): OrganInfo
     {
         $response = $this->send(new OrganDataByTinRequest($tin));
+
         return OrganInfo::from($response->json());
     }
 
     public function getPassportInfo(string $pinfl, ?string $birthDate = null, ?string $document = null, bool $isPhoto = false): PassportInfo
     {
         $response = $this->send(new PassportInfoV1($birthDate, $document, $isPhoto, $pinfl));
+
         return PassportInfo::from($response->json());
+    }
+
+    public function getTaxOrganInfo(string $tin): TaxOrganInfo
+    {
+        $response = $this->send(new TaxOrganInfoRequest($tin));
+
+        return TaxOrganInfo::from($response->json());
+    }
+
+    public function getEImzoTimestamp(string $sign): EImzoTimestamp
+    {
+        $response = $this->send(new TimestampRequest($sign));
+
+        return EImzoTimestamp::from($response->json());
+    }
+
+    public function makeAttached(string $pkcs7b64): Response
+    {
+        return $this->send(new MakeAttachedRequest($pkcs7b64));
+    }
+
+    public function verifyAttached(string $pkcs7b64): VerifyAttached
+    {
+        $response = $this->send(new VerifyAttachedRequest($pkcs7b64));
+
+        return VerifyAttached::from($response->json());
     }
 }

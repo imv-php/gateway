@@ -31,7 +31,7 @@ class GatewayAuthenticator implements Authenticator
         }
 
         $response = (new GatewayConnector)->send(new AuthRequest);
-        
+
         $auth = AuthData::from($response->json());
 
         Cache::put($cacheKey, $auth->toArray(), $auth->expires_in - $this->bufferSeconds);
