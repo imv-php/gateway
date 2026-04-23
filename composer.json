@@ -17,9 +17,10 @@
     ],
     "require": {
         "php": "^8.1",
-        "saloonphp/saloon": "^3.0",
-        "spatie/laravel-data": "^3.0||^4.0",
-        "spatie/laravel-package-tools": "^1.16"
+        "illuminate/contracts": "*",
+        "saloonphp/saloon": "*",
+        "spatie/laravel-data": "*",
+        "spatie/laravel-package-tools": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
