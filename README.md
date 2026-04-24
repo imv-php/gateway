@@ -61,13 +61,66 @@ echo $verify->status;
 
 ## Mavjud Metodlar
 
+### Soliq / Tashkilot
 | Metod | Qaytish turi | Tavsif |
 |-------|--------------|--------|
 | `getOrganDataByTin($tin)` | `OrganInfo` | STIR bo'yicha tashkilot ma'lumotlari |
 | `getTaxOrganInfo($tin)` | `TaxOrganInfo` | Soliq qo'mitasi bo'yicha kengaytirilgan ma'lumot |
-| `getPassportInfo($pinfl)` | `PassportInfo` | PINFL bo'yicha pasport ma'lumotlari |
+| `getOrganCars($tin)` | `Response` | Tashkilot transport vositalari ro'yxati |
+| `getOrgBuildingsList($tin)` | `Response` | Tashkilot kadastr binolari ro'yxati |
+| `getStaffCount($tin)` | `Response` | Tashkilot xodimlari soni |
+| `getDebtInfoJuridic($tin)` | `Response` | Yuridik shaxs qarzdorlik ma'lumotlari |
+| `getEntrepreneurRating($tin)` | `Response` | Tadbirkor reytingi |
+| `getJuridicLicense($tin)` | `Response` | Yuridik litsenziya ro'yxatga olishlar |
+
+### Moliyaviy hisobotlar
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
+| `getFinancialData($quarter, $requestDate, $tin, $year)` | `Response` | Moliyaviy hisobot shakl 2 |
+| `getFinancialReport($quarter, $requestDate, $tin, $year)` | `Response` | Moliyaviy hisobot shakl 1 |
+
+### Kadastr / Kommunal xizmatlar
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
+| `getCadastrData($cadastralNumber)` | `Response` | Kadastr raqami bo'yicha ma'lumot |
+| `getColdWaterData($cadastralNumber)` | `Response` | Sovuq suv balansi (Suvsoz) |
+| `getHotWaterData($cadastralNumber)` | `Response` | Issiq suv ma'lumotlari (Veolia) |
+| `getGasData($cadastralNumber)` | `Response` | Gaz ma'lumotlari |
+| `getTrashData($cadastralNumber)` | `Response` | Chiqindi/axlat ma'lumotlari |
+| `getHetDataByCadNumber($cadastralNumber)` | `Response` | Elektr (HET) kadastr bo'yicha |
+| `getHetDataBySoato($soato, $licshet)` | `Response` | Elektr (HET) SOATO bo'yicha |
+| `getMibEstateBan($cadastralNumber, $pinfl)` | `Response` | MIB ko'chmas mulk taqiqi tekshiruvi |
+
+### Fuqaro / Shaxsiy ma'lumotlar
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
+| `getPassportInfo($pinfl, $birthDate, $document, $isPhoto)` | `PassportInfo` | PINFL bo'yicha pasport ma'lumotlari |
+| `getWorkplace($pinfl)` | `Response` | Joriy ish joyi ma'lumotlari |
+| `getMentalIllness($pinfl)` | `Response` | Ruhiy salomatlik reestri |
+| `getNarcologist($pinfl)` | `Response` | Narkologiya reestri |
+| `getSocialProtection($pinfl)` | `Response` | Ijtimoiy himoya ma'lumotlari |
+| `getFamilyReestr($pinfl)` | `Response` | Oila reestri (IHMA) |
+| `getYattData($pinfl)` | `Response` | YATT tadbirkor ma'lumotlari |
+| `getSchoolChildrenInfo($pinfl)` | `Response` | Maktab o'quvchilari ma'lumotlari |
+| `getWomenService($pinfl, $passportSn)` | `Response` | Ayollar xizmati tekshiruvi |
+| `getYouthDaftar($passportNumber, $passportSeria, $pinfl)` | `Response` | Yoshlar daftari tekshiruvi |
+
+### Qarzdorlik / MIB
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
+| `getMibDebt($tin, $senderPinfl)` | `Response` | MIB qarzdor ijro so'rovi |
+
+### Sudlanganlik
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
+| `sendConvictionSearch(...)` | `Response` | Sudlanganlik qidiruvi yuborish |
+| `getConvictionCheck($queryId)` | `Response` | Sudlanganlik natijasini tekshirish |
+
+### E-IMZO (Raqamli imzo)
+| Metod | Qaytish turi | Tavsif |
+|-------|--------------|--------|
 | `getEImzoTimestamp($sign)` | `EImzoTimestamp` | E-IMZO vaqt tamg'asini olish |
-| `verifyAttached($pkcs7b64)` | `VerifyAttached` | PKCS7 imzorgi ma'lumotlarini tekshirish |
+| `verifyAttached($pkcs7b64)` | `VerifyAttachedResponse` | PKCS7 imzorgi ma'lumotlarini tekshirish |
 | `makeAttached($pkcs7b64)` | `Response` | Biriktirilgan imzo yaratish so'rovi |
 
 ## Xatoliklarni boshqarish
