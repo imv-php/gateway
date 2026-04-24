@@ -7,11 +7,11 @@ use Imv\Gateway\Exceptions\GatewayException;
 use Imv\Gateway\Facades\Gateway;
 
 it('can get organ info', function () {
-    expect(Gateway::getOrganDataByTin('301538182')) // correct tin
+    expect(Gateway::getOrganDataByTin('301538182')) //correct tin
         ->toBeInstanceOf(OrganInfo::class)
-        ->and(fn () => Gateway::getOrganDataByTin('201122917')) // wrong tin
+        ->and(fn() => Gateway::getOrganDataByTin('201122917')) //wrong tin
         ->toThrow(GatewayException::class)
-        ->and(fn () => Gateway::getOrganDataByTin('invalid_tin')) // invalid tin
+        ->and(fn() => Gateway::getOrganDataByTin('invalid_tin')) //invalid tin
         ->toThrow(GatewayException::class);
 });
 
@@ -29,7 +29,7 @@ it('can get passport info', function () {
 
 it('can get tax organ info', function () {
     $tin = '309079092';
-    
+
     $mockClient = new \Saloon\Http\Faking\MockClient([
         \Imv\Gateway\Requests\Tax\TaxOrganInfoRequest::class => \Saloon\Http\Faking\MockResponse::make([
             'company' => ['tin' => '309079092', 'name' => 'Test LLC'],
@@ -56,8 +56,6 @@ it('can get tax organ info', function () {
 });
 
 it('can call egov and finance endpoints', function () {
-    // We expect these to throw an exception if they fail auth or hit 404, etc.
-    // For now we'll just check if the methods exist and return Response objects when mocked.
     $mockClient = new \Saloon\Http\Faking\MockClient([
         \Imv\Gateway\Requests\EGov\OrganCarListRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\OrgBuildingsListRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
@@ -67,6 +65,26 @@ it('can call egov and finance endpoints', function () {
         \Imv\Gateway\Requests\EGov\JuridicLicenseDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\Finance\FinancialDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\Finance\FinancialReportRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\CadastralDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\ColdWaterRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\HotWaterRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\GasRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\TrashRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\HetByCadNumberRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\HetBySoatoRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\MibEstateBanRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\WorkplaceRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\MentalIllnessDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\NarcologistDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\SocialProtectionRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\FamilyReestrRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\YattDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\SchoolChildrenInfoRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\WomenServiceRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\YouthDaftarRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\MibDebtDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\ConvictionSearchRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
+        \Imv\Gateway\Requests\EGov\ConvictionCheckRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
     ]);
 
     $connector = new \Imv\Gateway\Connectors\GatewayConnector();
@@ -85,6 +103,25 @@ it('can call egov and finance endpoints', function () {
         ->and($gateway->getEntrepreneurRating('123')->json())->toBe(['success' => true])
         ->and($gateway->getJuridicLicense('123')->json())->toBe(['success' => true])
         ->and($gateway->getFinancialData('1', '2023-01-01', '123', '2023')->json())->toBe(['success' => true])
-        ->and($gateway->getFinancialReport('1', '2023-01-01', '123', '2023')->json())->toBe(['success' => true]);
+        ->and($gateway->getFinancialReport('1', '2023-01-01', '123', '2023')->json())->toBe(['success' => true])
+        ->and($gateway->getCadastrData('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getColdWaterData('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getHotWaterData('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getGasData('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getTrashData('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getHetDataByCadNumber('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getHetDataBySoato('1', '2')->json())->toBe(['success' => true])
+        ->and($gateway->getMibEstateBan('cad')->json())->toBe(['success' => true])
+        ->and($gateway->getWorkplace('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getMentalIllness('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getNarcologist('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getSocialProtection('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getFamilyReestr('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getYattData('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getSchoolChildrenInfo('pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getWomenService('pinfl', 'sn')->json())->toBe(['success' => true])
+        ->and($gateway->getYouthDaftar('num', 'seria', 'pinfl')->json())->toBe(['success' => true])
+        ->and($gateway->getMibDebt('tin')->json())->toBe(['success' => true])
+        ->and($gateway->sendConvictionSearch('fn', 'ln', 'mn', 'pass')->json())->toBe(['success' => true])
+        ->and($gateway->getConvictionCheck('queryId')->json())->toBe(['success' => true]);
 });
-
