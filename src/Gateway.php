@@ -17,6 +17,14 @@ use Imv\Gateway\Requests\OrganDataByTinRequest;
 use Imv\Gateway\Requests\OrganInfoRequest;
 use Imv\Gateway\Requests\Passport\PassportInfoV1;
 use Imv\Gateway\Requests\Tax\TaxOrganInfoRequest;
+use Imv\Gateway\Requests\EGov\DebtInfoJuridicRequest;
+use Imv\Gateway\Requests\EGov\EntrepreneurRatingDataRequest;
+use Imv\Gateway\Requests\EGov\JuridicLicenseDataRequest;
+use Imv\Gateway\Requests\EGov\OrgBuildingsListRequest;
+use Imv\Gateway\Requests\EGov\OrganCarListRequest;
+use Imv\Gateway\Requests\EGov\StaffCountRequest;
+use Imv\Gateway\Requests\Finance\FinancialDataRequest;
+use Imv\Gateway\Requests\Finance\FinancialReportRequest;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Request;
@@ -73,8 +81,47 @@ class Gateway
     public function getTaxOrganInfo(string $tin): TaxOrganInfo
     {
         $response = $this->send(new TaxOrganInfoRequest($tin));
-
         return TaxOrganInfo::from($response->json());
+    }
+
+    public function getOrganCars(string $tin): Response
+    {
+        return $this->send(new OrganCarListRequest($tin));
+    }
+
+    public function getOrgBuildingsList(string $tin): Response
+    {
+        return $this->send(new OrgBuildingsListRequest($tin));
+    }
+
+    public function getStaffCount(string $tin): Response
+    {
+        return $this->send(new StaffCountRequest($tin));
+    }
+
+    public function getDebtInfoJuridic(string $tin): Response
+    {
+        return $this->send(new DebtInfoJuridicRequest($tin));
+    }
+
+    public function getEntrepreneurRating(string $tin): Response
+    {
+        return $this->send(new EntrepreneurRatingDataRequest($tin));
+    }
+
+    public function getJuridicLicense(string $tin): Response
+    {
+        return $this->send(new JuridicLicenseDataRequest($tin));
+    }
+
+    public function getFinancialData(string $quarter, string $requestDate, string $tin, string $year): Response
+    {
+        return $this->send(new FinancialDataRequest($quarter, $requestDate, $tin, $year));
+    }
+
+    public function getFinancialReport(string $quarter, string $requestDate, string $tin, string $year): Response
+    {
+        return $this->send(new FinancialReportRequest($quarter, $requestDate, $tin, $year));
     }
 
     public function getEImzoTimestamp(string $sign): EImzoTimestamp
