@@ -1,6 +1,8 @@
 <?php
 
 use Imv\Gateway\Data\EGov\OrganCarList;
+use Imv\Gateway\Data\EGov\WorkplaceResponse;
+use Imv\Gateway\Data\EGov\WorkplaceResult;
 use Imv\Gateway\Data\OrganInfo;
 use Imv\Gateway\Data\Passport\PassportInfo;
 use Imv\Gateway\Data\Tax\TaxOrganInfo;
@@ -67,6 +69,19 @@ it('can get organ cars list', function () {
         ->and($data->organizationInn)->toBe($tin)
         ->and($data->vehicle)->toBeArray();
 });
+
+it('can get workplace info', function () {
+    $pinfl = '50809006810034';
+    $data = Gateway::getWorkplace($pinfl);
+
+    expect($data)
+        ->toBeInstanceOf(WorkplaceResult::class)
+        ->and($data->result->pnfl)->toBe($pinfl)
+        ->and($data->result->name)->toBeString()
+        ->and($data->result->surname)->toBeString()
+        ->and($data->result->positions)->toBeArray();
+});
+
 
 it('can call egov and finance endpoints', function () {
     $mockClient = new \Saloon\Http\Faking\MockClient([

@@ -6,6 +6,7 @@ use Imv\Gateway\Auth\GatewayAuthenticator;
 use Imv\Gateway\Connectors\GatewayConnector;
 use Imv\Gateway\Data\EGov\OrganCarList;
 use Imv\Gateway\Data\EGov\WorkplaceResponse;
+use Imv\Gateway\Data\EGov\WorkplaceResult;
 use Imv\Gateway\Data\EImzo\EImzoTimestamp;
 use Imv\Gateway\Data\EImzo\VerifyAttached;
 use Imv\Gateway\Data\OrganInfo;
@@ -185,10 +186,10 @@ class Gateway
         return $this->send(new MibEstateBanRequest($cadastralNumber, $pinfl));
     }
 
-    public function getWorkplace(string $pinfl): WorkplaceResponse
+    public function getWorkplace(string $pinfl): WorkplaceResult
     {
         $response = $this->send(new WorkplaceRequest($pinfl));
-        return WorkplaceResponse::from($response->json());
+        return WorkplaceResult::from($response->json('result'));
     }
 
     public function getMentalIllness(string $pinfl): Response
