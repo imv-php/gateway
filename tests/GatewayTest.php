@@ -1,5 +1,6 @@
 <?php
 
+use Imv\Gateway\Data\EGov\OrganCarList;
 use Imv\Gateway\Data\OrganInfo;
 use Imv\Gateway\Data\Passport\PassportInfo;
 use Imv\Gateway\Data\Tax\TaxOrganInfo;
@@ -55,6 +56,18 @@ it('can get tax organ info', function () {
         ->and($data->founders)->toBeArray();
 });
 
+
+
+it('can get organ cars list', function () {
+    $tin = '200011075';
+    $data = Gateway::getOrganCars($tin);
+
+    expect($data)
+        ->toBeInstanceOf(OrganCarList::class)
+        ->and($data->organizationInn)->toBe($tin)
+        ->and($data->vehicle)->toBeArray();
+});
+
 it('can call egov and finance endpoints', function () {
     $mockClient = new \Saloon\Http\Faking\MockClient([
         \Imv\Gateway\Requests\EGov\OrganCarListRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
@@ -96,8 +109,7 @@ it('can call egov and finance endpoints', function () {
     $property->setAccessible(true);
     $property->setValue($gateway, $connector);
 
-    expect($gateway->getOrganCars('123')->json())->toBe(['success' => true])
-        ->and($gateway->getOrgBuildingsList('123')->json())->toBe(['success' => true])
+    expect($gateway->getOrgBuildingsList('123')->json())->toBe(['success' => true])
         ->and($gateway->getStaffCount('123')->json())->toBe(['success' => true])
         ->and($gateway->getDebtInfoJuridic('123')->json())->toBe(['success' => true])
         ->and($gateway->getEntrepreneurRating('123')->json())->toBe(['success' => true])

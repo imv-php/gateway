@@ -4,8 +4,9 @@ namespace Imv\Gateway;
 
 use Imv\Gateway\Auth\GatewayAuthenticator;
 use Imv\Gateway\Connectors\GatewayConnector;
+use Imv\Gateway\Data\EGov\OrganCarList;
 use Imv\Gateway\Data\EImzo\EImzoTimestamp;
-use Imv\Gateway\Data\EImzo\VerifyAttachedResponse;
+use Imv\Gateway\Data\EImzo\VerifyAttached;
 use Imv\Gateway\Data\OrganInfo;
 use Imv\Gateway\Data\Passport\PassportInfo;
 use Imv\Gateway\Data\Tax\TaxOrganInfo;
@@ -87,27 +88,25 @@ class Gateway
     public function getOrganDataByTin(string $tin): OrganInfo
     {
         $response = $this->send(new OrganDataByTinRequest($tin));
-
         return OrganInfo::from($response->json());
     }
 
     public function getPassportInfo(string $pinfl, ?string $birthDate = null, ?string $document = null, bool $isPhoto = false): PassportInfo
     {
         $response = $this->send(new PassportInfoV1($birthDate, $document, $isPhoto, $pinfl));
-
         return PassportInfo::from($response->json());
     }
 
     public function getTaxOrganInfo(string $tin): TaxOrganInfo
     {
         $response = $this->send(new TaxOrganInfoRequest($tin));
-
         return TaxOrganInfo::from($response->json());
     }
 
-    public function getOrganCars(string $tin): Response
+    public function getOrganCars(string $tin): OrganCarList
     {
-        return $this->send(new OrganCarListRequest($tin));
+        $response = $this->send(new OrganCarListRequest($tin));
+        return OrganCarList::from($response->json());
     }
 
     public function getOrgBuildingsList(string $tin): Response
@@ -248,7 +247,6 @@ class Gateway
     public function getEImzoTimestamp(string $sign): EImzoTimestamp
     {
         $response = $this->send(new TimestampRequest($sign));
-
         return EImzoTimestamp::from($response->json());
     }
 
@@ -257,10 +255,9 @@ class Gateway
         return $this->send(new MakeAttachedRequest($pkcs7b64));
     }
 
-    public function verifyAttached(string $pkcs7b64): VerifyAttachedResponse
+    public function verifyAttached(string $pkcs7b64): VerifyAttached
     {
         $response = $this->send(new VerifyAttachedRequest($pkcs7b64));
-
-        return VerifyAttachedResponse::from($response->json());
+        return VerifyAttached::from($response->json());
     }
 }

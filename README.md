@@ -66,7 +66,7 @@ echo $verify->status;
 |-------|--------------|--------|
 | `getOrganDataByTin($tin)` | `OrganInfo` | STIR bo'yicha tashkilot ma'lumotlari |
 | `getTaxOrganInfo($tin)` | `TaxOrganInfo` | Soliq qo'mitasi bo'yicha kengaytirilgan ma'lumot |
-| `getOrganCars($tin)` | `Response` | Tashkilot transport vositalari ro'yxati |
+| `getOrganCars($tin)` | `OrganCarList` | Tashkilot transport vositalari ro'yxati |
 | `getOrgBuildingsList($tin)` | `Response` | Tashkilot kadastr binolari ro'yxati |
 | `getStaffCount($tin)` | `Response` | Tashkilot xodimlari soni |
 | `getDebtInfoJuridic($tin)` | `Response` | Yuridik shaxs qarzdorlik ma'lumotlari |
