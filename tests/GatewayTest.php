@@ -70,7 +70,6 @@ it('can get organ cars list', function () {
 
 it('can call egov and finance endpoints', function () {
     $mockClient = new \Saloon\Http\Faking\MockClient([
-        \Imv\Gateway\Requests\EGov\OrganCarListRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\OrgBuildingsListRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\StaffCountRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\DebtInfoJuridicRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
@@ -86,7 +85,6 @@ it('can call egov and finance endpoints', function () {
         \Imv\Gateway\Requests\EGov\HetByCadNumberRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\HetBySoatoRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\MibEstateBanRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
-        \Imv\Gateway\Requests\EGov\WorkplaceRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\MentalIllnessDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\NarcologistDataRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
         \Imv\Gateway\Requests\EGov\SocialProtectionRequest::class => \Saloon\Http\Faking\MockResponse::make(['success' => true], 200),
@@ -124,7 +122,6 @@ it('can call egov and finance endpoints', function () {
         ->and($gateway->getHetDataByCadNumber('cad')->json())->toBe(['success' => true])
         ->and($gateway->getHetDataBySoato('1', '2')->json())->toBe(['success' => true])
         ->and($gateway->getMibEstateBan('cad')->json())->toBe(['success' => true])
-        ->and($gateway->getWorkplace('pinfl')->json())->toBe(['success' => true])
         ->and($gateway->getMentalIllness('pinfl')->json())->toBe(['success' => true])
         ->and($gateway->getNarcologist('pinfl')->json())->toBe(['success' => true])
         ->and($gateway->getSocialProtection('pinfl')->json())->toBe(['success' => true])

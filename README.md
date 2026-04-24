@@ -95,7 +95,7 @@ echo $verify->status;
 | Metod | Qaytish turi | Tavsif |
 |-------|--------------|--------|
 | `getPassportInfo($pinfl, $birthDate, $document, $isPhoto)` | `PassportInfo` | PINFL bo'yicha pasport ma'lumotlari |
-| `getWorkplace($pinfl)` | `Response` | Joriy ish joyi ma'lumotlari |
+| `getWorkplace($pinfl)` | `WorkplaceResponse` | Joriy ish joyi ma'lumotlari |
 | `getMentalIllness($pinfl)` | `Response` | Ruhiy salomatlik reestri |
 | `getNarcologist($pinfl)` | `Response` | Narkologiya reestri |
 | `getSocialProtection($pinfl)` | `Response` | Ijtimoiy himoya ma'lumotlari |
