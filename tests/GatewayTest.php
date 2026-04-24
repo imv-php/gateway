@@ -8,6 +8,7 @@ use Imv\Gateway\Data\Passport\PassportInfo;
 use Imv\Gateway\Data\Tax\TaxOrganInfo;
 use Imv\Gateway\Exceptions\GatewayException;
 use Imv\Gateway\Facades\Gateway;
+use Imv\Gateway\Requests\Tax\TaxOrganInfoRequest;
 
 it('can get organ info', function () {
     expect(Gateway::getOrganDataByTin('301538182')) //correct tin
@@ -19,7 +20,7 @@ it('can get organ info', function () {
 });
 
 it('can get passport info', function () {
-    $pinfl = '50809006810034';
+    $pinfl = '';
     $data = Gateway::getPassportInfo($pinfl);
 
     expect($data)
@@ -31,10 +32,10 @@ it('can get passport info', function () {
 });
 
 it('can get tax organ info', function () {
-    $tin = '309079092';
+    $tin = '';
 
     $mockClient = new \Saloon\Http\Faking\MockClient([
-        \Imv\Gateway\Requests\Tax\TaxOrganInfoRequest::class => \Saloon\Http\Faking\MockResponse::make([
+        TaxOrganInfoRequest::class => \Saloon\Http\Faking\MockResponse::make([
             'company' => ['tin' => '309079092', 'name' => 'Test LLC'],
             'founders' => []
         ], 200),
@@ -61,7 +62,7 @@ it('can get tax organ info', function () {
 
 
 it('can get organ cars list', function () {
-    $tin = '200011075';
+    $tin = '';
     $data = Gateway::getOrganCars($tin);
 
     expect($data)
@@ -71,7 +72,7 @@ it('can get organ cars list', function () {
 });
 
 it('can get workplace info', function () {
-    $pinfl = '50809006810034';
+    $pinfl = '';
     $data = Gateway::getWorkplace($pinfl);
 
     expect($data)
